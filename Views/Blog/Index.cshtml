@@ -1,0 +1,6 @@
+﻿@model MyFirstMVC.Models.BlogIndexViewModel
+
+@foreach(var article in Model.Articles)
+{
+    <h2>@article.Title</h2>
+}
