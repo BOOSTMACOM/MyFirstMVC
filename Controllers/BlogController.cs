@@ -4,49 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyFirstMVC.Models;
+using MyFirstMVC.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyFirstMVC.Controllers
 {
     public class BlogController : Controller
     {
-        private IList<Article> Articles { get; set; }
+        private readonly AppDbContext _context;
 
-        public BlogController()
+        public BlogController(AppDbContext context)
         {
-            Articles = new List<Article>
-            {
-                new Article
-                {
-                    Title = "Mon article",
-                    Content = "Lorem ipsum dolor sit amet",
-                    Auhtor = "John DOE"
-                },
-                new Article
-                {
-                    Title = "Mon article",
-                    Content = "Lorem ipsum dolor sit amet",
-                    Auhtor = "John DOE"
-                },
-                new Article
-                {
-                    Title = "Mon article",
-                    Content = "Lorem ipsum dolor sit amet",
-                    Auhtor = "John DOE"
-                },
-                new Article
-                {
-                    Title = "Mon article",
-                    Content = "Lorem ipsum dolor sit amet",
-                    Auhtor = "John DOE"
-                },
-            };
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             BlogIndexViewModel model = new BlogIndexViewModel
             {
-                  Articles = Articles
+                  Articles = await _context.Articles.ToListAsync()
             };
 
             return View(model);
